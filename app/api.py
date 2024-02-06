@@ -1,5 +1,7 @@
-from fastapi import FastAPI
 import config
+from src import pipeline_sentiment
+
+from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import pipeline
 import uvicorn
