@@ -17,7 +17,7 @@ def get_video_id(url_video):
 
 def get_comments(api_key, video_id):
     """Get comments"""
-    endpoint = "https://www.qoogleapis.com/youtube/v3/commentThreads"
+    endpoint = "https://www.googleapis.com/youtube/v3/commentThreads"
     params = {
         "part":"snippet",
         "videoId": video_id,
@@ -30,7 +30,7 @@ def get_comments(api_key, video_id):
     if "items" in res.keys():
         return {
             num: {
-            "test_comment": " ".join(
+            "text_comment": " ".join(
                 x["snippet"]["topLevelComment"]["snippet"][
                     "textOriginal"
                 ].splitlines()
