@@ -56,3 +56,7 @@ def pipeline_sentiment(url_video, api_key, model):
     text_tuple = [get_sentim(i, model) for i in comments_df["text_comment"]]
     comments_df[["sentiment", "score"]] = pd.DataFrame(list(text_tuple))
     return comments_df
+
+def pipeline_stats(data):
+    """Get statistic of sentiment"""
+    return data['sentiment'].value_counts(normalize=True) * 100
