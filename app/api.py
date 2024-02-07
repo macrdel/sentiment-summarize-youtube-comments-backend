@@ -1,12 +1,12 @@
-import config
-from src import pipeline_sentiment
+import config.config as config
+from app.src.src import pipeline_sentiment
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import pipeline
 import uvicorn
 
-sentiment_model = pipeline(config.sentiment_model)
+sentiment_model = pipeline(model=config.sentiment_model)
 app = FastAPI()
 
 class YouTubeUrl(BaseModel):
