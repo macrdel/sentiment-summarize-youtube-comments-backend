@@ -59,4 +59,4 @@ def pipeline_sentiment(url_video, api_key, model):
 
 def pipeline_stats(data):
     """Get statistic of sentiment"""
-    return data['sentiment'].value_counts(normalize=True) * 100
+    return data['sentiment'].value_counts(normalize=True).mul(100).round(2)
