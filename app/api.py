@@ -3,13 +3,13 @@ from app.src.src import pipeline_sentiment, pipeline_stats, pipeline_summarize
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from transformers import pipeline
+# from transformers import pipeline
 import uvicorn
 import pandas as pd
 import os
 
-sentiment_model = pipeline(model=config.sentiment_model)
-sum_model = pipeline(model=config.sum_model, use_fast=True)
+# sentiment_model = pipeline(model=config.sentiment_model)
+# sum_model = pipeline(model=config.sum_model, use_fast=True)
 
 app = FastAPI()
 
