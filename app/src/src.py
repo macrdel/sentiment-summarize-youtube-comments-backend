@@ -62,7 +62,7 @@ def pipeline_stats(data):
     """Get statistic of sentiment"""
     return data['sentiment'].value_counts(normalize=True).mul(100).round(2)
 
-def pipeline_summarize(data, headers, url, length=2000, max_length=25):
+def pipeline_summarize(data, headers, url, length=2000, max_length=50):
     """Get summarization result"""
     text = " ".join(data)
     result_text = []
