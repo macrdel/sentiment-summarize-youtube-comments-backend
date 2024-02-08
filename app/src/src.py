@@ -62,13 +62,20 @@ def pipeline_stats(data):
     """Get statistic of sentiment"""
     return data['sentiment'].value_counts(normalize=True).mul(100).round(2)
 
-def pipeline_summarize(data, model, length=2000, max_length=100):
+def pipeline_summarize(data, headers, url, length=2000, max_length=25):
     """Get summarization result"""
     text = " ".join(data)
     result_text = []
 
     for i in range(0, len(text), length):
         new_text = text[i : i + length]
-        result_text.append(model(new_text, max_length=max_length))
+        payload = {
+            "inputs": new_text,
+            "parameters": {
+                "max_length": max_length
+            }       
+        }
+        res = requests.post(url, headers=headers, json=payload)
+        result_text.append(res.json()[0]['generated_text'])
 
     return ". ".join([i[0]["summary_text"] for i in result_text])
