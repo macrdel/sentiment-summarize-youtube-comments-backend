@@ -76,6 +76,6 @@ def pipeline_summarize(data, headers, url, length=2000, max_length=25):
             }       
         }
         res = requests.post(url, headers=headers, json=payload)
-        result_text.append(res.json()[0]['generated_text'])
+        result_text.append(res.json())
 
-    return ". ".join([i[0]["summary_text"] for i in result_text])
+    return ". ".join([i[0]["generated_text"] for i in result_text])
