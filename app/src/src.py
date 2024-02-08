@@ -42,18 +42,19 @@ def get_comments(api_key, video_id):
             for num, x in enumerate(res['items'])
         }
     
-def get_sentim(data, model):
+def get_sentim(data, headers, url):
     """Get result of sentimental analysis"""
-    res = model(data)[0]
+    res = requests.post(url, headers=headers, json=data)
+    res = res.json()[0][0]
     return res['label'], res['score']
 
-def pipeline_sentiment(url_video, api_key, model):
+def pipeline_sentiment(url_video, api_key, headers, url):
     """Pipeline of sentimental analysis"""
     video_id = get_video_id(url_video)
     comments = get_comments(api_key, video_id)
     comments_df = pd.DataFrame(comments).T 
 
-    text_tuple = [get_sentim(i, model) for i in comments_df["text_comment"]]
+    text_tuple = [get_sentim(i, headers, url) for i in comments_df["text_comment"]]
     comments_df[["sentiment", "score"]] = pd.DataFrame(list(text_tuple))
     return comments_df
 
