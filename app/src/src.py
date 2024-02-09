@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+import time
 import urllib.parse as urlparse
 
 
@@ -45,6 +46,7 @@ def get_comments(api_key, video_id):
 def get_sentim(data, headers, url):
     """Get result of sentimental analysis"""
     res = requests.post(url, headers=headers, json=data)
+    time.sleep(0.25)
     res = res.json()[0][0]
     return res['label'], res['score']
 
@@ -78,4 +80,4 @@ def pipeline_summarize(data, headers, url, length=2000, max_length=35):
         res = requests.post(url, headers=headers, json=payload)
         result_text.append(res.json()[0]["generated_text"])
 
-    return ". ".join(result_text)
+    return " ".join(result_text)
