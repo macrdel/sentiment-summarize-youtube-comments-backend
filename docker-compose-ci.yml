@@ -45,6 +45,16 @@ services:
     networks:
       - custom
 
+    tests:
+      build:
+        context: .
+        dockerfile: Dockerfile.Test
+      volumes:
+        - .:/home/user/app
+      depends_on:
+        - app
+      command: pytest tests
+
 networks:
   custom:
     driver: bridge

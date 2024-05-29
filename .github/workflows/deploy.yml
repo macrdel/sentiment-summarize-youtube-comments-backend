@@ -23,9 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Run tests
-      run: |
-        docker build --target test -t macrdel/sentiment-summarize-youtube-comments-backend:latest .
-        docker run --rm macrdel/sentiment-summarize-youtube-comments-backend:latest pytest /tests
+      run: docker-compose up tests
 
     - name: Build Docker image
       if: success()
