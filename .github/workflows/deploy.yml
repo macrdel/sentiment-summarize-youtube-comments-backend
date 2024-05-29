@@ -38,5 +38,7 @@ jobs:
       env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_USER: ${{ secrets.HF_USER }}
-      run: git push --force https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/sentiment-summarize-youtube-comms main
+      run: | 
+        git remote set-url huggingface https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/sentiment-summarize-youtube-comms
+        git push --force huggingface main
 
