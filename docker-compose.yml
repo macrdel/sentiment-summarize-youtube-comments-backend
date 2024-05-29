@@ -7,7 +7,7 @@ services:
     ports:
       - "8001:8000"
     volumes:
-      - .app:/home/user/app
+      - ./app:/home/user/app
     depends_on:
       - prometheus
     networks:
@@ -19,7 +19,7 @@ services:
     ports:
       - "8002:8000"
     volumes:
-      - .app:/home/user/app
+      - ./app:/home/user/app
     depends_on:
       - prometheus
     networks:
@@ -64,7 +64,7 @@ services:
       context: .
       dockerfile: Dockerfile.Test
     volumes:
-      - .:/home/user/app
+      - ./app:/home/user/app
     depends_on:
       - app
     command: pytest tests
