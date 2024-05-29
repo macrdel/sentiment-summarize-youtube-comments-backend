@@ -1,4 +1,4 @@
-name: Unit tests and Docker build
+name: Unit tests, Docker build, Deploy To HF spaces
 
 on:
   push:
@@ -32,3 +32,9 @@ jobs:
     - name: Push Docker image
       if: success()
       run: docker push macrdel/sentiment-summarize-youtube-comments-backend:latest
+
+    - name: Deploy to Hugging Face Spaces
+      if: success() 
+      env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: git push --force https://macrdel:$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms master:main
