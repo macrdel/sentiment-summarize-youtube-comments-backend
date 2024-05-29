@@ -41,9 +41,9 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           #HF_USER: ${{ secrets.HF_USER }}
       run: | 
-        git remote add huggingface https://$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms
+        git remote add huggingface https://macrdel:$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms
         git fetch huggingface
         git branch -r
         git checkout -b main
-        git push --force https://$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms main
+        git push --force https://macrdel:$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms main
 
