@@ -6,20 +6,20 @@ services:
     container_name: sentiment-summarize-youtube-comments-1
     ports:
       - "8001:8000"
+    volumes:
+      - .:/home/user/app    
     depends_on:
       - prometheus
-    networks:
-      - custom
 
-  app1:
+  app2:
     build: .
     container_name: sentiment-summarize-youtube-comments-2
     ports:
       - "8002:8000"
+    volumes:
+      - .:/home/user/app
     depends_on:
       - prometheus
-    networks:
-      - custom
 
   nginx:
     image: nginx:latest
@@ -28,10 +28,6 @@ services:
       - "8000:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - app
-    networks:
-      - custom
 
   prometheus:
     image: prom/prometheus
@@ -40,8 +36,6 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-    networks:
-      - custom
 
   grafana:
     image: grafana/grafana
@@ -52,8 +46,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
-    networks:
-      - custom
 
   tests:
     build:
@@ -64,7 +56,3 @@ services:
     depends_on:
       - app
     command: pytest tests
-
-networks:
-  custom:
-    driver: bridge
