@@ -13,6 +13,6 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-COPY --chown=user . $HOME/app
+COPY --chown=user .. $HOME/app
 
-CMD ["pytest", "tests"]
+CMD ["pytest", "."]

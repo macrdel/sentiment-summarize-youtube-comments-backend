@@ -61,8 +61,8 @@ services:
 
   tests:
     build:
-      context: app
-      dockerfile: Dockerfile.Test
+      context: ./tests
+      dockerfile: Dockerfile
     volumes:
       - ./app:/home/user/app
     depends_on:
