@@ -61,7 +61,7 @@ services:
 
   tests:
     build:
-      context: .
+      context: app
       dockerfile: Dockerfile.Test
     volumes:
       - ./app:/home/user/app
