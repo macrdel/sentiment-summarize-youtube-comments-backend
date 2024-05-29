@@ -2,10 +2,24 @@ version: '3.7'
 
 services:
   app:
-    build: .
-    container_name: sentiment-summarize-youtube-comments
+    build: app
+    container_name: sentiment-summarize-youtube-comments-1
     ports:
-      - "8000:8000"
+      - "8001:8000"
+    volumes:
+      - .app:/home/user/app
+    depends_on:
+      - prometheus
+    networks:
+      - custom
+
+  app2:
+    build: app
+    container_name: sentiment-summarize-youtube-comments-2
+    ports:
+      - "8002:8000"
+    volumes:
+      - .app:/home/user/app
     depends_on:
       - prometheus
     networks:
@@ -15,9 +29,9 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "80:80"
+      - "8000:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
     networks:

@@ -15,4 +15,4 @@ WORKDIR $HOME/app
 
 COPY --chown=user . $HOME/app
 
-CMD ["sh", "-c", "service nginx start && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+CMD ["sh", "-c", "service nginx start && uvicorn app.api:app --host 0.0.0.0 --port 8000"]
