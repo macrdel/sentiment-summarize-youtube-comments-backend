@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 # from transformers import pipeline
 # import uvicorn
+from prometheus_client import start_http_server, Summary
 import pandas as pd
 import os
 
@@ -15,6 +16,7 @@ SENT_API_URL = f"https://api-inference.huggingface.co/models/{config.sentiment_m
 SUM_API_URL = f"https://api-inference.huggingface.co/models/{config.sum_model}"
 
 app = FastAPI()
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 
 class YouTubeUrl(BaseModel):
     url_video: str
@@ -40,6 +42,10 @@ def get_summarize():
     if f"{config.NAME_DATA}" in os.listdir(f"{config.PATH_DATA}"):
         data = pd.read_csv(f"{config.DATA_FILE}")
         return pipeline_summarize(data['text_comment'], headers, SUM_API_URL)
+    
+@app.lifespan("startup")
+def startup_event():
+    start_http_server(8000)
 
 
 #if __name__ == '__main__':

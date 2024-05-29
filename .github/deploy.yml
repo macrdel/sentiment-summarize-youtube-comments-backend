@@ -1,0 +1,44 @@
+name: Deploy to Hugging Face Spaces
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Run tests
+      run: |
+        docker build --target test -t macrdel/sentiment-summarize-youtube-comments-backend:latest .
+        docker run --rm macrdel/sentiment-summarize-youtube-comments-backend:latest pytest /tests
+
+    - name: Build Docker image
+      if: success()
+      run: docker build -t macrdel/sentiment-summarize-youtube-comments-backend:latest .
+
+    - name: Push Docker image
+      if: success()
+      run: docker push macrdel/sentiment-summarize-youtube-comments-backend:latest
+
+    - name: Deploy to Hugging Face Spaces
+      if: success()
+      env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_USER: ${{ secrets.HF_USER }}
+      run: git push --force https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/sentiment-summarize-youtube-comms main
+
