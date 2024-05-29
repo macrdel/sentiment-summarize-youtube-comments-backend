@@ -2,24 +2,20 @@ version: '3.7'
 
 services:
   app:
-    build: app
+    build: .
     container_name: sentiment-summarize-youtube-comments-1
     ports:
       - "8001:8000"
-    volumes:
-      - ./app:/home/user/app
     depends_on:
       - prometheus
     networks:
       - custom
 
-  app2:
-    build: app
+  app1:
+    build: .
     container_name: sentiment-summarize-youtube-comments-2
     ports:
       - "8002:8000"
-    volumes:
-      - ./app:/home/user/app
     depends_on:
       - prometheus
     networks:
@@ -61,10 +57,10 @@ services:
 
   tests:
     build:
-      context: ./tests
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.Test
     volumes:
-      - ./app:/home/user/app
+      - .:/home/user/app
     depends_on:
       - app
     command: pytest tests
