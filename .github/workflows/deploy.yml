@@ -40,5 +40,5 @@ jobs:
           HF_USER: ${{ secrets.HF_USER }}
       run: | 
         git remote add huggingface https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/sentiment-summarize-youtube-comms
-        git push --force huggingface main
+        git push --force https://$HF_USER:$HF_TOKEN@huggingface.co/spaces/$HF_USER/sentiment-summarize-youtube-comms main
 
