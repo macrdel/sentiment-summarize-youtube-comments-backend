@@ -43,7 +43,7 @@ def get_summarize():
         data = pd.read_csv(f"{config.DATA_FILE}")
         return pipeline_summarize(data['text_comment'], headers, SUM_API_URL)
     
-@app.lifespan("startup")
+@app.on_event("startup")
 def startup_event():
     start_http_server(8000)
 
