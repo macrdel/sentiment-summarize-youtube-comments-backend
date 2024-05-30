@@ -15,4 +15,6 @@ WORKDIR $HOME/app
 
 COPY --chown=user . .
 
+ENV PYTHONPATH=/home/user/app
+
 CMD ["pytest", "tests"]
