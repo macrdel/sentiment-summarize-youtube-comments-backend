@@ -63,7 +63,7 @@ services:
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     env_file:
-      - ./grafana/config.monitoring
+      - ./grafana/provisioning/config.monitoring
     networks:
       example-network:
         ipv4_address: 172.16.238.12
