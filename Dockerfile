@@ -4,7 +4,7 @@ WORKDIR /code
 
 COPY requirements.txt .
 
-RUN apt-get update && apt-get install -y nginx && apt-get clean && pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 RUN useradd -m -u 1000 user
 USER user
