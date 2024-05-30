@@ -70,7 +70,7 @@ jobs:
 
     - name: Push Grafana
       run: |
-        docker run -d --name grafana --network example-network --ip 172.16.238.12 -p 3000:3000 -v $(pwd)/grafana/provisioning:/etc/grafana/provisioning --env-file $(pwd)/grafana/config.monitoring grafana/grafana
+        docker run -d --name grafana --network example-network --ip 172.16.238.12 -p 3000:3000 -v $(pwd)/grafana/provisioning:/etc/grafana/provisioning --env-file $(pwd)/grafana/provisioning/config.monitoring grafana/grafana
 
 
   deploy:
