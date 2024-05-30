@@ -1,18 +1,20 @@
-version: '3.7'
+version: "3.10.5"
 
 services:
   app:
     build: .
-    command: uvicorn app.api:app --host 0.0.0.0 --port 8000 # --reload
-    container_name: "sentiment-summarize-youtube-comments"
+    restart: unless-stopped
+    command: uvicorn app.api:app --host 0.0.0.0 --port 8000
+    container_name: app
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
       - .:/home/user/app
     environment:
       - PYTHONPATH=/home/user/app
-    depends_on:
-      - prometheus
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.10
 
   # app2:
   #   build: .
@@ -39,27 +41,35 @@ services:
   #     - app2
 
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
+    restart: unless-stopped
     container_name: prometheus
+    ports:
+      - 9090:9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.11
 
   grafana:
     image: grafana/grafana
     container_name: grafana
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: unless-stopped
     depends_on:
       - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    env_file:
+      - ./grafana/config.monitoring
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.12
 
   tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.Test
+    build: .
     volumes:
       - .:/home/user/app
     environment:
@@ -67,3 +77,12 @@ services:
     depends_on:
       - app
     command: pytest tests
+
+networks:
+  example-network:
+    name: example-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24

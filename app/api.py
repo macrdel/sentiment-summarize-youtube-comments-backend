@@ -2,10 +2,11 @@ from config import config
 from app.src.src import pipeline_sentiment, pipeline_stats, pipeline_summarize
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
 # from transformers import pipeline
 # import uvicorn
-from prometheus_client import start_http_server, Summary
 import pandas as pd
 import os
 
@@ -16,7 +17,6 @@ SENT_API_URL = f"https://api-inference.huggingface.co/models/{config.sentiment_m
 SUM_API_URL = f"https://api-inference.huggingface.co/models/{config.sum_model}"
 
 app = FastAPI()
-REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 
 class YouTubeUrl(BaseModel):
     url_video: str
@@ -43,9 +43,15 @@ def get_summarize():
         data = pd.read_csv(f"{config.DATA_FILE}")
         return pipeline_summarize(data['text_comment'], headers, SUM_API_URL)
     
-@app.on_event("startup")
-def startup_event():
-    start_http_server(8000)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+Instrumentator().instrument(app).expose(app)
 
 
 #if __name__ == '__main__':
