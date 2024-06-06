@@ -41,7 +41,7 @@ jobs:
         docker-compose run --rm tests
         docker-compose down
 
-  deploy:
+  push:
     runs-on: ubuntu-latest
     needs: test
 
