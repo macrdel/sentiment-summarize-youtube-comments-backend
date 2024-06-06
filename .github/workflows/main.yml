@@ -60,8 +60,9 @@ jobs:
 
     - name: Deploy services locally
       run: |
+        docker-compose pull
         docker-compose up -d app prometheus grafana
-        docker-compose up -d
+      # docker-compose up -d
 
   # deploy:
   #   runs-on: ubuntu-latest
