@@ -17,4 +17,4 @@ COPY --chown=user . $HOME/app
 
 ENV PYTHONPATH=/home/user/app
 
-# CMD ["sh", "-c", "service nginx start && uvicorn app.api:app --host 0.0.0.0 --port 8000"]
+CMD ["uvicorn app.api:app --host 0.0.0.0 --port 8000"]
