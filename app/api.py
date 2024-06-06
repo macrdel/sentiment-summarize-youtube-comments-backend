@@ -48,7 +48,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"] ,
 )
 
 Instrumentator().instrument(app).expose(app)
