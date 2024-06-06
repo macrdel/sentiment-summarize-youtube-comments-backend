@@ -64,14 +64,14 @@ jobs:
         docker-compose up -d app prometheus grafana
       # docker-compose up -d
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: push
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #     with:
-  #       fetch-depth: 0
-  #   - name: Deploy to Hugging Face Spaces
-  #     env:
-  #       HF_TOKEN: ${{ secrets.HF_TOKEN }}
-  #     run: git push --force https://macrdel:$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms master:main
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Deploy to Hugging Face Spaces
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: git push --force https://macrdel:$HF_TOKEN@huggingface.co/spaces/macrdel/sentiment-summarize-youtube-comms master:main
